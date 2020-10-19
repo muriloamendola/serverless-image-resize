@@ -1,0 +1,42 @@
+{
+  "name": "serverless-image-resize",
+  "version": "1.0.0",
+  "description": "Serverless project using Typescript with a sample on how to resize images automatically uploaded to S3 bucket",
+  "author": "Murilo Amêndola <muriloamendola@gmail.com>",
+  "license": "MIT",
+  "main": "handler.js",
+  "scripts": {
+    "lint": "npx eslint . --ext .ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "source-map-support": "^0.5.10"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.17",
+    "@types/node": "^10.17.40",
+    "@types/serverless": "^1.72.5",
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.1",
+    "eslint": "^7.11.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "fork-ts-checker-webpack-plugin": "^3.0.1",
+    "husky": "^4.3.0",
+    "serverless-webpack": "^5.2.0",
+    "ts-loader": "^5.3.3",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7",
+    "webpack": "^4.29.0",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint"
+    }
+  }
+}
