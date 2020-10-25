@@ -33,13 +33,19 @@ const serverlessConfiguration: Serverless = {
     versionFunctions: false
   },
   functions: {
-    hello: {
-      handler: 'handler.hello',
+    imagesResize: {
+      handler: 'src/handlers/imagesResizeHandler.process',
       events: [
         {
-          http: {
-            method: 'get',
-            path: 'hello'
+          s3: {
+            bucket: 'images-to-resize-bucket',
+            event: 's3:ObjectCreated:*',
+            rules: [
+              {
+                prefix: 'uploads/',
+                suffix: '.*'
+              }
+            ]
           }
         }
       ]
