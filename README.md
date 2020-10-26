@@ -1,4 +1,4 @@
-# serverless-image-resize
+# [WIP] serverless-image-resize
 
 ![Flow](docs/images/serverless-image-resize-flow.png)
 
