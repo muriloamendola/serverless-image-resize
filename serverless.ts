@@ -30,7 +30,17 @@ const serverlessConfiguration: Serverless = {
       name: 'serverless-image-resize.${self:provider.stage}.deploys',
       blockPublicAccess: true
     },
-    versionFunctions: false
+    versionFunctions: false,
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: [
+          's3:GetObject',
+          's3:PutObject'
+        ],
+        Resource: 'arn:aws:s3:::*'
+      }
+    ]
   },
   functions: {
     imagesResize: {

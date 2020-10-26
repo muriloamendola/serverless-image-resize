@@ -6,6 +6,22 @@ This is a sample project illustrating how you can handle with S3 trigger events 
 
 In this sample we will resize all images uploaded to a specific S3 bucket (as you can see in the image above).
 
+## Getting Started
+
+These instructions will get you a copy of the project up and running on aws cloud. 
+
+First of all you need to clone this repository in your machine:
+
+```bash
+git clone git@github.com:muriloamendola/serverless-image-resize.git
+```
+
+To install project dependencies just run:
+
+```bash
+npm i
+```
+
 ### Prerequisites
 
 This project have been developed using `Serverless Architecture` and to help us to deploy and operating the resources in to the Cloud we decided to use [Serverless Framework](https://serverless.com). For use of Serverless Framework we need to install `serverless cli` running the following command:
