@@ -32,7 +32,9 @@ const resizeS3EventRecord = async (record: S3EventRecord) => {
   })
 }
 
-const isContentTypeAllowed = (contentType: string): boolean => {
+const isContentTypeAllowed = (contentType?: string): boolean => {
+  if (contentType === undefined) return false
+
   const allowedContentTypes = process.env.ALLOWED_CONTENT_TYPES || ''
   return allowedContentTypes.split('|').includes(contentType)
 }
