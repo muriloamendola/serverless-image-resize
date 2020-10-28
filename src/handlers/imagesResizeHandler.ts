@@ -1,43 +1,43 @@
 import { S3Event, S3EventRecord, S3Handler } from 'aws-lambda'
-import * as AWS from 'aws-sdk'
-import * as sharp from 'sharp'
-import 'source-map-support/register'
-
-AWS.config.region = 'us-east-1'
-const s3 = new AWS.S3()
+import * as imageManipulator from '../utils/imagesManipulator'
+import { getObject, upload } from '../utils/s3Client'
 
 export const process: S3Handler = async (event: S3Event, _context) => {
-  for (let i = 0; i < event.Records.length; i++) {
-    const record: S3EventRecord = event.Records[i]
-    console.info(`Processing record: ${JSON.stringify(record)}`)
+  const recordsResized = event.Records.map(record => resizeS3EventRecord(record))
+  await Promise.all(recordsResized)
+}
 
-    const bucketName = record.s3.bucket.name
-    const objectKey = record.s3.object.key
+const resizeS3EventRecord = async (record: S3EventRecord) => {
+  console.info(`Processing record: ${JSON.stringify(record)}`)
 
-    const object = await s3.getObject({
-      Bucket: bucketName,
-      Key: objectKey
-    }).promise()
+  const Bucket = record.s3.bucket.name
+  const Key = record.s3.object.key
 
-    console.log(`Object size ${object.ContentLength} bytes of type ${object.ContentType}`)
+  const object = await getObject({ Bucket, Key })
+  console.log(`Object of type ${object.ContentType} and size ${object.ContentLength} bytes`)
 
-    const fileName = objectKey.split('/').pop()
-    const resizedObjectKey = `resized/${fileName}`
-
-    const resized: Buffer = await sharp(object.Body)
-      .resize({
-        width: 200,
-        height: 200,
-        fit: sharp.fit.cover,
-        position: sharp.strategy.entropy
-      })
-      .toBuffer()
-
-    await s3.upload({
-      ContentType: object.ContentType,
-      Body: resized,
-      Bucket: bucketName,
-      Key: resizedObjectKey
-    }).promise()
+  if (!isContentTypeAllowed(object.ContentType)) {
+    console.error(`Content-type ${object.ContentType} not allowed`)
+    return
   }
+
+  const resizedImageBytes: Buffer = await imageManipulator.resize(object.Body as Buffer, newImageSize)
+  const resizedImageKey = `resized/${Key.split('/').pop()}`
+
+  await upload({
+    ContentType: object.ContentType,
+    Body: resizedImageBytes,
+    Bucket,
+    Key: resizedImageKey
+  })
+}
+
+const isContentTypeAllowed = (contentType: string): boolean => {
+  const allowedContentTypes = process.env.ALLOWED_CONTENT_TYPES || []
+  return allowedContentTypes.includes(contentType)
+}
+
+const newImageSize = {
+  width: process.env.RESIZE_TO_WIDTH || 200,
+  height: process.env.RESIZE_TO_HEIGHT || 200
 }

@@ -58,7 +58,16 @@ const serverlessConfiguration: Serverless = {
             ]
           }
         }
-      ]
+      ],
+      environment: {
+        RESIZE_TO_WIDTH: 200,
+        RESIZE_TO_HEIGHT: 200,
+        ALLOWED_CONTENT_TYPES: [
+          'image/png',
+          'image/jpg',
+          'image/jpeg'
+        ]
+      }
     }
   }
 }

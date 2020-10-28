@@ -1,4 +1,4 @@
-name: Deploy master branch
+name: Serverless deploy to AWS
 
 on:
   push:
