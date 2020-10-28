@@ -33,8 +33,8 @@ const resizeS3EventRecord = async (record: S3EventRecord) => {
 }
 
 const isContentTypeAllowed = (contentType: string): boolean => {
-  const allowedContentTypes = process.env.ALLOWED_CONTENT_TYPES || []
-  return allowedContentTypes.includes(contentType)
+  const allowedContentTypes = process.env.ALLOWED_CONTENT_TYPES || ''
+  return allowedContentTypes.split('|').includes(contentType)
 }
 
 const newImageSize = {
