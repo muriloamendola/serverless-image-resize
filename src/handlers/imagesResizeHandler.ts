@@ -2,7 +2,7 @@ import { S3Event, S3EventRecord, S3Handler } from 'aws-lambda'
 import * as imageManipulator from '../utils/imagesManipulator'
 import { getObject, upload } from '../utils/s3Client'
 
-export const process: S3Handler = async (event: S3Event, _context) => {
+export const execute: S3Handler = async (event: S3Event, _context) => {
   const recordsResized = event.Records.map(record => resizeS3EventRecord(record))
   await Promise.all(recordsResized)
 }

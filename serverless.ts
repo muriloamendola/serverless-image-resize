@@ -44,7 +44,7 @@ const serverlessConfiguration: Serverless = {
   },
   functions: {
     imagesResize: {
-      handler: 'src/handlers/imagesResizeHandler.process',
+      handler: 'src/handlers/imagesResizeHandler.execute',
       events: [
         {
           s3: {
