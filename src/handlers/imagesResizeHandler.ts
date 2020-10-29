@@ -40,6 +40,6 @@ const isContentTypeAllowed = (contentType?: string): boolean => {
 }
 
 const newImageSize = {
-  width: process.env.RESIZE_TO_WIDTH || 200,
-  height: process.env.RESIZE_TO_HEIGHT || 200
+  width: +(process.env.RESIZE_TO_WIDTH || 200),
+  height: +(process.env.RESIZE_TO_HEIGHT || 200)
 }
