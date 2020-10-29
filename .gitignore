@@ -10,3 +10,6 @@ jspm_packages
 
 # Webpack directories
 .webpack
+
+# Jest coverage directory
+coverage

@@ -6,27 +6,35 @@
   "license": "MIT",
   "main": "handler.js",
   "scripts": {
-    "lint": "npx eslint . --ext .ts"
+    "lint": "npx eslint . --ext .ts",
+    "test": "jest --coverage"
   },
   "dependencies": {
     "sharp": "^0.26.2",
     "source-map-support": "^0.5.10"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
     "@types/aws-lambda": "^8.10.17",
+    "@types/jest": "^26.0.15",
     "@types/node": "^10.17.43",
     "@types/serverless": "^1.72.5",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
     "aws-sdk": "^2.778.0",
+    "babel-jest": "^26.6.1",
     "eslint": "^7.11.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "fork-ts-checker-webpack-plugin": "^3.0.1",
     "husky": "^4.3.0",
+    "jest": "^26.6.1",
     "serverless-webpack": "^5.2.0",
     "ts-loader": "^5.3.3",
     "ts-node": "^8.10.2",

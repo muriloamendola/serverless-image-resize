@@ -1,6 +1,12 @@
 import { S3Event, S3EventRecord, S3Handler } from 'aws-lambda'
+import { isContentTypeAllowed } from '../utils/contentTypeValidator'
 import * as imageManipulator from '../utils/imagesManipulator'
 import { getObject, upload } from '../utils/s3Client'
+
+const newImageSize = {
+  width: +(process.env.RESIZE_TO_WIDTH || 200),
+  height: +(process.env.RESIZE_TO_HEIGHT || 200)
+}
 
 export const execute: S3Handler = async (event: S3Event, _context) => {
   const recordsResized = event.Records.map(record => resizeS3EventRecord(record))
@@ -17,8 +23,7 @@ const resizeS3EventRecord = async (record: S3EventRecord) => {
   console.log(`Object of type ${object.ContentType} and size ${object.ContentLength} bytes`)
 
   if (!isContentTypeAllowed(object.ContentType)) {
-    console.error(`Content-type ${object.ContentType} not allowed`)
-    return
+    throw new Error(`Content-type ${object.ContentType} not allowed`)
   }
 
   const resizedImageBytes: Buffer = await imageManipulator.resize(object.Body as Buffer, newImageSize)
@@ -30,16 +35,6 @@ const resizeS3EventRecord = async (record: S3EventRecord) => {
     Bucket,
     Key: resizedImageKey
   })
-}
 
-const isContentTypeAllowed = (contentType?: string): boolean => {
-  if (contentType === undefined) return false
-
-  const allowedContentTypes = process.env.ALLOWED_CONTENT_TYPES || ''
-  return allowedContentTypes.split('|').includes(contentType)
-}
-
-const newImageSize = {
-  width: +(process.env.RESIZE_TO_WIDTH || 200),
-  height: +(process.env.RESIZE_TO_HEIGHT || 200)
+  console.info(`Object ${resizedImageKey} uploaded with success!`)
 }
